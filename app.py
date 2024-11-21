@@ -13,8 +13,30 @@ from tensorflow.keras.metrics import Precision, Recall
 import google.generativeai as genai
 import PIL.Image
 import os
+import gdown
 from dotenv import load_dotenv
 load_dotenv()
+
+def download_models():
+  os.makedirs('models', exist_ok=True)
+
+  cnn_id = "1mzZCGCrfeeZMZZ9UlxIFpUq8u73dU9ZS"
+  xception_id = "1uXvjXs-n2EF7gK1HGByMUI6rirVb3IwC"
+
+  cnn_path = 'models/cnn_model_10_epochs.h5'
+  xception_path = 'models/xception_model.weights.h5'
+
+  if not os.path.exists(cnn_path):
+    with st.spinner('Downloading CNN model...'):
+      url = f"https://drive.google.com/uc?id={cnn_id}"
+      gdown.download(url, cnn_path, quiet=False)
+
+  if not os.path.exists(xception_path):
+    with st.spinner('Downloading Xception model...'):
+      url = f"https://drive.google.com/uc?id={xception_id}"
+      gdown.download(url, xception_path, quiet=False)
+
+  return cnn_path, xception_path
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
@@ -137,7 +159,7 @@ def load_xception_model(model_path):
 st.title("Brain Tumor Classification")
 
 st.write("Upload an image of a brain MRI scan to classify.")
-
+cnn_path, xception_path = download_models()
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
@@ -148,10 +170,10 @@ if uploaded_file is not None:
   )
 
   if selected_model == "Transfer Learning - Xception":
-    model = load_xception_model('/content/xception_model.weights.h5')
+    model = load_xception_model(xception_path)
     img_size = (299, 299)
   else:
-    model = load_model('/content/cnn_model_10_epochs.h5')
+    model = load_model(cnn_path)
     img_size = (224, 224)
 
   labels = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
