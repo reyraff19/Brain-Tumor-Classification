@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def download_models():
-  os.makedirs('models', exist_ok=False)
+  os.makedirs('models', exist_ok=True)
 
   cnn_id = "1mzZCGCrfeeZMZZ9UlxIFpUq8u73dU9ZS"
   xception_id = "1uXvjXs-n2EF7gK1HGByMUI6rirVb3IwC"
