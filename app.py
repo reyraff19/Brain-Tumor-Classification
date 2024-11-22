@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def download_models():
-  os.makedirs('models', exist_ok=False)
+  os.makedirs('models', exist_ok=True)
 
   cnn_id = "1mzZCGCrfeeZMZZ9UlxIFpUq8u73dU9ZS"
   xception_id = "1uXvjXs-n2EF7gK1HGByMUI6rirVb3IwC"
@@ -41,7 +41,7 @@ def download_models():
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 output_dir = 'saliency_maps'
-os.makedirs(output_dir, exist_ok=True)
+os.makedirs(output_dir, exist_ok=False)
 
 def generate_explanation(img_path, model_prediction, confidence):
 
