@@ -17,7 +17,7 @@ import gdown
 from dotenv import load_dotenv
 load_dotenv()
 
-os.makedirs('models', exist_ok=True)
+def download_models():
   os.makedirs('models', exist_ok=True)
 
   cnn_id = "1mzZCGCrfeeZMZZ9UlxIFpUq8u73dU9ZS"
